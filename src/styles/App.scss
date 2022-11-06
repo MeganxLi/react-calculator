@@ -1,17 +1,14 @@
 //utils
 @import "./utils/mixins";
-// @import "./util/variables";
-// @import "./util/function";
+@import "./utils/variables";
 
 //base
 @import "./base/reset";
 @import "./base/base";
 
 //components
-// @import "./components/header";
 // @import "./components/footer";
-// @import "./components/top";
+// @import "./components/tool";
 
 //page
-// @import "./page/index";
-// @import "./page/pricing";
+@import "./page/Container";

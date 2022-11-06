@@ -9,7 +9,6 @@ export const Container = styled.div`
 
 export const Screen = styled.div`
   flex: 1 0;
-  background-color: rgba(60,64,67,0.75);
   display: flex;
   justify-content: space-around;
   flex-direction: column;
@@ -35,17 +34,18 @@ export const ButtonContainer = styled.div`
   display: grid;
   justify-content: center;
   align-content: center;
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(5,75px);
-  padding: 1.5rem 2.5rem;
-
+  grid-template-columns: repeat( 4, 1fr );
+  grid-template-rows: repeat( 5, 75px );
+  gap: 0.5rem;
+  padding: 2rem 1rem;
+  border-radius: 1.5rem 1.5rem 0 0;
+  background: var(--Button-Container);
 `;
 
 export const Button = styled.button<{
   gridSpan?: number,
   data?: string,
   operation?: boolean,
-  period?: boolean,
   equals?: boolean,
   control?: boolean
 }>`
@@ -53,9 +53,12 @@ export const Button = styled.button<{
   font-size: 2rem;
   border: none;
   outline: none;
-  background-color: rgba(255, 255, 255, 0.75);
+  border-radius: 1.5rem;
+  font-weight: 500;
+  color: var(--Text);
+  background: transparent;
   &:hover{
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: var(--Background);
   }
 
   /*EXPANDED FORM EXAMPLE 擴展表格JS*/
@@ -67,8 +70,7 @@ export const Button = styled.button<{
 
   /*上面簡化後變下面的*/
   ${({ gridSpan }) => gridSpan && `grid-column: span ${gridSpan};`}
-  ${({ operation }) => operation && "background-color: gray;"}
-  ${({ control }) => control && "background-color: skyblue;"}
-  ${({ equals }) => equals && "border-bottom-right-radius: 10px; background-color: gray;"}
-  ${({ period }) => period && "border-bottom-left-radius: 10px; background-color: skyblue;"}
+  ${({ operation }) => operation && "color: var(--Green)"}
+  ${({ control }) => control && "color: var(--Blue)"}
+  ${({ equals }) => equals && "background-color: var(--Background-Green);"}
 `;

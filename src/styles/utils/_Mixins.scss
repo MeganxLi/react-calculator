@@ -8,11 +8,23 @@ $media: (
   2xl: 1536px,
 );
 
-@mixin rwd($breakpoint) {
+@mixin rwd-max($breakpoint) {
   @if map-has-key($media, $breakpoint) {
     $point: map-get($media, $breakpoint);
 
     @media (max-width: $point) {
+      @content;
+    }
+  } @else {
+    @warn 'Invalid breakpoint: #{$breakpoint}.';
+  }
+}
+
+@mixin rwd-min($breakpoint) {
+  @if map-has-key($media, $breakpoint) {
+    $point: map-get($media, $breakpoint);
+
+    @media (min-width: $point) {
       @content;
     }
   } @else {

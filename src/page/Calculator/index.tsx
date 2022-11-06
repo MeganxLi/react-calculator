@@ -108,7 +108,7 @@ export default function Calculator() {
         <Button data={"2"} onClick={appendValue}>2</Button>
         <Button data={"3"} onClick={appendValue}>3</Button>
         <Button data={"-"} onClick={chooseOperation} operation>-</Button>
-        <Button period onClick={handleDelete}><GoOn /></Button>
+        <Button control onClick={handleDelete}><GoOn size='28px' /></Button>
         <Button data={"0"} onClick={appendValue}>0</Button>
         <Button data={"."} onClick={appendValue}>.</Button>
         <Button equals onClick={equals}>=</Button>
