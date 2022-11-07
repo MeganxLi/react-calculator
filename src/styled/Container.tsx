@@ -7,12 +7,34 @@ export const Container = styled.div`
   box-shadow: 2px 2px 10px #333;
 `;
 
+export const Tool = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+export const ThemeButton = styled.div`
+  background: var(--Button-Container);
+  border-radius: 10px;
+  > span {
+    display: inline-block;
+    padding: 8px 10px;
+
+    &:not(.action){
+      opacity: 0.5;
+    }
+  }
+`;
+
+
 export const Screen = styled.div`
   flex: 1 0;
-  display: flex;
-  justify-content: space-around;
-  flex-direction: column;
+  display: grid;
+  grid-template-rows: 40px auto 50px;
+  gap: 1rem;
   padding: 10px;
+  color: var(--Text);
+  font-weight: 500;
   word-wrap: break-word; /*標明瀏覽器再單詞內進行斷行，防止字符串太長找不到他的自然斷句產生溢出*/
   word-break: break-all; /*標明怎麼怎麼進行單詞內的斷句*/
   text-align: right;
@@ -21,13 +43,15 @@ export const Screen = styled.div`
 `;
 
 export const Previous = styled.div`
-  color: rgba(255,255,255,0.75);
+  color: var(--Previous);
   font-size: 1.5rem;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
 `;
 
 export const Current = styled.div`
-  color: white;
-  font-size: 2.5rem;    
+  font-size: 2.5rem;
 `;
 
 export const ButtonContainer = styled.div`

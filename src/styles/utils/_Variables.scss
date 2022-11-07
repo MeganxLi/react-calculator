@@ -9,10 +9,12 @@
   --Text: #2c2a2a;
   --Background-Green: rgba(106, 154, 158, 0.8);
   --Background: var(--White);
+  --Previous: rgba(44, 42, 4, 0.7);
   --Button-Container: var(--Gray);
 }
 .dark {
   --Text: var(--White);
   --Background: var(--Dark);
+  --Previous: rgba(250, 250, 250, 0.7);
   --Button-Container: var(--Dark-Blue);
 }
