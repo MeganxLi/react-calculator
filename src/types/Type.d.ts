@@ -1,3 +1,3 @@
 interface stateType {
-  theme: "Light" | "Dark";
+  darkTheme: boolean;
 }

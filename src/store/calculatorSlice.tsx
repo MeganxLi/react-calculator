@@ -1,14 +1,19 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState: stateType = {
-  theme: "Light",
+  darkTheme: false,
 };
 
 export const calculatorSlice = createSlice({
   name: "calculator",
   initialState,
-  reducers: {},
+  reducers: {
+    changeTheme: (state) => {
+      state.darkTheme = !state.darkTheme;
+    },
+  },
   extraReducers: {},
 });
 
+export const { changeTheme } = calculatorSlice.actions;
 export default calculatorSlice.reducer;

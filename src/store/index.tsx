@@ -1,10 +1,18 @@
+import { persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage";
 import { configureStore } from "@reduxjs/toolkit";
-import calculatorReducer from "./calculatorSlice";
+import rootReducer from "./rootReducer";
+
+const persistConfig = {
+  key: "root",
+  storage,
+  whitelist: ["calculator"],
+};
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 const store = configureStore({
-  reducer: {
-    calculator: calculatorReducer,
-  },
+  reducer: persistedReducer,
 });
 
 export type RootState = ReturnType<typeof store.getState>;
