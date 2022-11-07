@@ -1,10 +1,14 @@
 import React, { useState } from "react";
-import { GoOn } from "@icon-park/react";
+import { GoOn, Moon, SunOne, History } from "@icon-park/react";
+import { useAppDispatch, useAppSelector } from "../../store/hook";
+import { changeTheme } from "../../store/calculatorSlice";
 
-import { Container, Screen, Previous, Current, Button, ButtonContainer } from "../../styled/Container";
+import { Container, Screen, Previous, Current, Button, ButtonContainer, Tool, ThemeButton } from "../../styled/Container";
 
 
 export default function Calculator() {
+  const dispatch = useAppDispatch();
+  const { darkTheme } = useAppSelector((state) => state.calculator);
 
   //一個是數組，另一個數組存儲狀態的值
   const [current, setCurrent] = useState("");
@@ -86,8 +90,15 @@ export default function Calculator() {
   };
 
   return (
-    <Container className="container">
+    <Container className="container ">
       <Screen>
+        <Tool>
+          <ThemeButton onClick={() => dispatch(changeTheme())}>
+            <SunOne size='20px' className={darkTheme ? undefined : "action"} />
+            <Moon size='20px' className={darkTheme ? "action" : undefined} />
+          </ThemeButton>
+          <History size='20px' />
+        </Tool>
         <Previous>{previous} {operation}</Previous>
         <Current>{current}</Current>
       </Screen>
