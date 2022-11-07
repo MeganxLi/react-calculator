@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { GoOn, Moon, SunOne, History } from "@icon-park/react";
 import { useAppDispatch, useAppSelector } from "../../store/hook";
 import { changeTheme } from "../../store/calculatorSlice";
 
 import { Container, Screen, Previous, Current, Button, ButtonContainer, Tool, ThemeButton } from "../../styled/Container";
-
 
 export default function Calculator() {
   const dispatch = useAppDispatch();
@@ -20,7 +19,7 @@ export default function Calculator() {
 
     //includes判斷陣列是否包含特定的元素，並回傳 true 或 false
     //在到達呼叫 return 的地方後，函式會立即停止
-    if (value === "." && current.includes(".")) return;
+    if (value === "." && current.includes(".") || current.length > 12) return;
     setCurrent(current + value);
   };
 
@@ -100,7 +99,7 @@ export default function Calculator() {
           <History size='20px' />
         </Tool>
         <Previous>{previous} {operation}</Previous>
-        <Current>{current}</Current>
+        <Current className="current">{current}</Current>
       </Screen>
       <ButtonContainer>
         <Button control onClick={handleAllClear}>C</Button>
