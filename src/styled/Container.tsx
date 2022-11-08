@@ -1,10 +1,8 @@
 import styled from "styled-components";
 
-
 export const Container = styled.div`
-  display: flex;  
+  display: flex;
   flex-direction: column;
-  box-shadow: 2px 2px 10px #333;
 `;
 
 export const Tool = styled.div`
@@ -20,12 +18,11 @@ export const ThemeButton = styled.div`
     display: inline-block;
     padding: 8px 10px;
 
-    &:not(.action){
+    &:not(.action) {
       opacity: 0.5;
     }
   }
 `;
-
 
 export const Screen = styled.div`
   flex: 1 0;
@@ -50,16 +47,17 @@ export const Previous = styled.div`
   align-items: flex-end;
 `;
 
-export const Current = styled.div`
-  font-size: 2.5rem;
+export const Current = styled.div<{ $fontSize: number }>`
+  font-size: ${(props) => props.$fontSize}px;
+  white-space: nowrap;
 `;
 
 export const ButtonContainer = styled.div`
   display: grid;
   justify-content: center;
   align-content: center;
-  grid-template-columns: repeat( 4, 1fr );
-  grid-template-rows: repeat( 5, 75px );
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(5, 75px);
   gap: 0.5rem;
   padding: 2rem 1rem;
   border-radius: 1.5rem 1.5rem 0 0;
@@ -67,11 +65,11 @@ export const ButtonContainer = styled.div`
 `;
 
 export const Button = styled.button<{
-  gridSpan?: number,
-  data?: string,
-  operation?: boolean,
-  equals?: boolean,
-  control?: boolean
+  gridSpan?: number;
+  data?: string;
+  operation?: boolean;
+  equals?: boolean;
+  control?: boolean;
 }>`
   cursor: pointer;
   font-size: 2rem;
@@ -81,7 +79,7 @@ export const Button = styled.button<{
   font-weight: 500;
   color: var(--Text);
   background: transparent;
-  &:hover{
+  &:hover {
     background-color: var(--Background);
   }
 

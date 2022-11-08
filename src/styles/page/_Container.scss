@@ -2,17 +2,20 @@ $spacing: 40px;
 
 .container {
   width: 100%;
-  height: calc(100vh - $spacing * 2);
-  max-width: 375px;
-  max-height: 812px;
-  margin: $spacing auto;
+  height: calc(100vh);
   background: var(--Background);
+  margin: 0 auto;
+  box-shadow: rgb(100 100 111 / 50%) 0px 7px 29px 0;
 
-  @include rwd-min(md) {
+  @include rwd-min(sm) {
+    max-width: 375px;
+    max-height: 812px;
     border: 12px solid var(--Mobile-Border);
     border-radius: 36px;
     position: relative;
     overflow: hidden;
+    height: calc(100vh - $spacing * 2);
+    margin: $spacing auto;
 
     &::before {
       content: "";
@@ -37,6 +40,13 @@ $spacing: 40px;
       left: 50%;
       transform: translatex(-50%);
       z-index: 1000;
+    }
+  }
+
+  @include rwd-max(2xs) {
+    font-size: 2rem;
+    .current {
+      font-size: calc((100vw - 6rem) / 7);
     }
   }
 }
