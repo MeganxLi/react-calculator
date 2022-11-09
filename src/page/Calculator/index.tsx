@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Moon, SunOne, History } from "@icon-park/react";
 import { useAppDispatch, useAppSelector } from "../../store/hook";
-import { changeTheme } from "../../store/calculatorSlice";
+import { changeTheme, saveExpression } from "../../store/calculatorSlice";
 
 import { Btns, BTN_ACTIONS } from "../../contexts/btnsConfig";
 import {
@@ -118,6 +118,9 @@ export default function Calculator() {
       setPrevious(sliceTempCurrent + "=");
       const total = eval(handleReplaceText(sliceTempCurrent));
       setCurrent(total.toString());
+
+      // history
+      dispatch(saveExpression({ expression: sliceTempCurrent + "=", total: total.toString() }));
     } catch {
       setPrevious(current + "=");
       setCurrent("0");
