@@ -1,0 +1,33 @@
+$media: (
+  2xs: 375px,
+  xs: 480px,
+  sm: 640px,
+  md: 768px,
+  lg: 992px,
+  xl: 1280px,
+  2xl: 1536px,
+);
+
+@mixin rwd-max($breakpoint) {
+  @if map-has-key($media, $breakpoint) {
+    $point: map-get($media, $breakpoint);
+
+    @media (max-width: $point) {
+      @content;
+    }
+  } @else {
+    @warn 'Invalid breakpoint: #{$breakpoint}.';
+  }
+}
+
+@mixin rwd-min($breakpoint) {
+  @if map-has-key($media, $breakpoint) {
+    $point: map-get($media, $breakpoint);
+
+    @media (min-width: $point) {
+      @content;
+    }
+  } @else {
+    @warn 'Invalid breakpoint: #{$breakpoint}.';
+  }
+}

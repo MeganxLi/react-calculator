@@ -1,0 +1,11 @@
+.slide-top {
+  animation: slide-top 0.2s linear both;
+}
+@keyframes slide-top {
+  0% {
+    transform: translateY(100%);
+  }
+  100% {
+    transform: translateY(25%);
+  }
+}
