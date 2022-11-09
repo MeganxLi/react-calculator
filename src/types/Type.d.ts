@@ -1,6 +1,10 @@
+interface historyType {
+  expression: string;
+  total: string;
+}
 interface stateType {
   darkTheme: boolean;
-  history: string[];
+  history: historyType[];
 }
 
 interface BtnType {
