@@ -96,3 +96,34 @@ export const Button = styled.button<{
   ${({ control }) => control && "color: var(--Blue)"}
   ${({ equals }) => equals && "background-color: var(--Background-Green);"}
 `;
+
+export const HistoryContainer = styled.div<{ show: boolean }>`
+  display: ${props => props.show ? "inline-block" : "none"};
+  position: absolute;
+  background-color: rgb(0 0 0 / 50%);
+  width: 100%;
+  height: 100%;
+`;
+
+export const HistoryBlock = styled.div`
+  height: 80%;
+  width: 100%;
+  background: var(--Button-Container);
+  transform: translateY(25%);
+  padding: 1rem;
+  overflow: auto;
+`;
+
+export const HistoryItem = styled.div`
+  padding: 1rem 0;
+  text-align: right;
+
+  > span {
+    display: block;    
+  }
+
+  > span:first-child{
+    color: var(--Previous);
+    padding-bottom: 8px;
+  }
+`;
