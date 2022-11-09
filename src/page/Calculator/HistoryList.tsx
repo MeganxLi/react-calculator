@@ -39,7 +39,7 @@ const HistoryList = ({ OpenHistoryList, setOpenHistoryList, setCurrent, setPrevi
 
   return (
     <HistoryContainer show={OpenHistoryList} onClick={CloseHistoryList}>
-      <HistoryBlock onClick={Stop}>
+      <HistoryBlock onClick={Stop} className="slide-top">
         <DeleteFour size="20px" onClick={CleanHistoryList} />
         {history.map((item, idx) => {
           return (

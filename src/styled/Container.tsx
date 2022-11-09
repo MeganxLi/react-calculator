@@ -109,7 +109,6 @@ export const HistoryBlock = styled.div`
   height: 80%;
   width: 100%;
   background: var(--Button-Container);
-  transform: translateY(25%);
   padding: 1rem;
   overflow: auto;
 `;
