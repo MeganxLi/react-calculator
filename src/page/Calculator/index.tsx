@@ -14,12 +14,14 @@ import {
   Tool,
   ThemeButton,
 } from "../../styled/Container";
+import HistoryList from "./HistoryList";
 
 const currentMaxFontSize = 40;
 
 export default function Calculator() {
   const dispatch = useAppDispatch();
   const { darkTheme } = useAppSelector((state) => state.calculator);
+  const [OpenHistoryList, setOpenHistoryList] = useState<boolean>(false);
 
   // 一個是數組，另一個數組存儲狀態的值
   const [current, setCurrent] = useState<string>("");
@@ -107,6 +109,8 @@ export default function Calculator() {
 
   // =
   const equals = () => {
+    if (current === "") return;
+
     let sliceTempCurrent = current;
 
     // 排除最後一個字非數字
@@ -115,12 +119,13 @@ export default function Calculator() {
     }
 
     try {
-      setPrevious(sliceTempCurrent + "=");
-      const total = eval(handleReplaceText(sliceTempCurrent));
-      setCurrent(total.toString());
+      const newPrevious = sliceTempCurrent + "=";
+      const total = eval(handleReplaceText(sliceTempCurrent)).toString();
+      setPrevious(newPrevious);
+      setCurrent(total);
 
       // history
-      dispatch(saveExpression({ expression: sliceTempCurrent + "=", total: total.toString() }));
+      dispatch(saveExpression({ expression: newPrevious, total: total }));
     } catch {
       setPrevious(current + "=");
       setCurrent("0");
@@ -157,7 +162,7 @@ export default function Calculator() {
             <SunOne size="20px" className={darkTheme ? undefined : "action"} />
             <Moon size="20px" className={darkTheme ? "action" : undefined} />
           </ThemeButton>
-          <History size="20px" />
+          <History size="20px" onClick={() => setOpenHistoryList(true)} />
         </Tool>
         <Previous>{previous}</Previous>
         <Current className="current" ref={CurrentRef} $fontSize={AllotCurrentFontSize}>
@@ -179,6 +184,12 @@ export default function Calculator() {
           </Button>
         ))}
       </ButtonContainer>
+      <HistoryList
+        OpenHistoryList={OpenHistoryList}
+        setOpenHistoryList={setOpenHistoryList}
+        setCurrent={setCurrent}
+        setPrevious={setPrevious}
+      />
     </Container>
   );
 }

@@ -15,13 +15,22 @@ export const calculatorSlice = createSlice({
     saveExpression: (state, action) => {
       // redux current 拷貝
       if (current(state.history).length > 10) {
-        state.history.shift();
+        state.history.pop();
       }
-      state.history.push(action.payload);
+      state.history.unshift(action.payload);
     },
+    cleanExpression: (state) => {
+      state.history = [];
+    },
+    clickExpressionItem: (state, { payload }) => {
+      const temp = current(state.history)[payload];
+
+      state.history.splice(payload, 1);
+      state.history.unshift(temp);
+    }
   },
   extraReducers: {},
 });
 
-export const { changeTheme, saveExpression } = calculatorSlice.actions;
+export const { changeTheme, saveExpression, cleanExpression, clickExpressionItem } = calculatorSlice.actions;
 export default calculatorSlice.reducer;
