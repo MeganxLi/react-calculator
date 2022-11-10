@@ -27,9 +27,9 @@ export const ThemeButton = styled.div`
 export const Screen = styled.div`
   flex: 1 0;
   display: grid;
+  align-items: end;
   grid-template-rows: 40px auto 50px;
   gap: 1rem;
-  padding: 10px;
   color: var(--Text);
   font-weight: 500;
   word-wrap: break-word; /*標明瀏覽器再單詞內進行斷行，防止字符串太長找不到他的自然斷句產生溢出*/
@@ -48,18 +48,18 @@ export const Previous = styled.div`
 `;
 
 export const Current = styled.div`
-  font-size: 1.5rem;
-  white-space: nowrap;
+  font-size: 2.5rem;
 `;
 
 export const ButtonContainer = styled.div`
+  flex: 1.5 0;
   display: grid;
   justify-content: center;
   align-content: center;
   grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(5, 75px);
+  grid-template-rows: repeat(5, 1fr);
   gap: 0.5rem;
-  padding: 2rem 1rem;
+  padding: 1rem 1rem;
   border-radius: 1.5rem 1.5rem 0 0;
   background: var(--Button-Container);
 `;

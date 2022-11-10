@@ -43,10 +43,10 @@ $spacing: 40px;
     }
   }
 
-  @include rwd-max(2xs) {
-    font-size: 2rem;
-    .current {
-      font-size: calc((100vw - 6rem) / 7);
+  .screen {
+    padding: 20px 10px 10px;
+    @include rwd-max(sm) {
+      padding: 10px;
     }
   }
 }

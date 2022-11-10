@@ -7,6 +7,7 @@
   --Green: #18d2b4;
   --Gray: #f0f0f0;
   --Text: #2c2a2a;
+  --Body-Background: linear-gradient(45deg, #93a5cf 0%, #e4efe9 100%);
   --Background-Green: rgba(106, 154, 158, 0.8);
   --Background: var(--White);
   --Previous: rgba(44, 42, 4, 0.7);
@@ -14,6 +15,7 @@
 }
 .dark {
   --Text: var(--White);
+  --Body-Background: linear-gradient(-225deg, #cbbacc 0%, #2580b3 100%);
   --Background: var(--Dark);
   --Previous: rgba(250, 250, 250, 0.7);
   --Button-Container: var(--Dark-Blue);
