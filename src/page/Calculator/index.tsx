@@ -16,8 +16,6 @@ import {
 } from "../../styled/Container";
 import HistoryList from "./HistoryList";
 
-const currentMaxFontSize = 40;
-
 export default function Calculator() {
   const dispatch = useAppDispatch();
   const { darkTheme } = useAppSelector((state) => state.calculator);
@@ -30,38 +28,8 @@ export default function Calculator() {
   // 變更 current font-size
   const ScreenRef = useRef<HTMLDivElement>(null);
   const CurrentRef = useRef<HTMLDivElement>(null);
-  const [AllotCurrentFontSize, setAllotCurrentFontSize] = useState<number>(currentMaxFontSize);
-
-  // const listenerAlive = () => {
-  //   if (ScreenRef.current && CurrentRef.current) {
-  //     const ScreenWidth = ScreenRef.current.scrollWidth;
-  //     const CurrentWidth = parseFloat(window.getComputedStyle(CurrentRef.current, null).getPropertyValue("width"));
-  //     const CurrentFontSize = parseFloat(
-  //       window.getComputedStyle(CurrentRef.current, null).getPropertyValue("font-size")
-  //     );
-  //     console.log(
-  //       "ScreenWidth",
-  //       ScreenWidth,
-  //       CurrentWidth,
-  //       CurrentFontSize,
-  //       Math.floor((CurrentFontSize * (ScreenWidth - 20)) / CurrentWidth),
-  //       Math.min(Math.floor((CurrentFontSize * ScreenWidth) / CurrentWidth), currentMaxFontSize)
-  //     );
-
-  //     setAllotCurrentFontSize(
-  //       Math.min(Math.floor((CurrentFontSize * (ScreenWidth - 20)) / CurrentWidth), currentMaxFontSize)
-  //     );
-  //   }
-  // };
-
-  useEffect(() => {
-    console.log(AllotCurrentFontSize);
-  }, [AllotCurrentFontSize]);
 
   const appendValue = (value: string) => {
-    console.log("rup4", value, value === "x");
-    // console.log(value, current.slice(-1), value === "x", current.slice(-1) === "x");
-
     // includes 判斷陣列是否包含特定的元素，並回傳 true 或 false
     //在到達呼叫 return 的地方後，函式會立即停止
     if (
@@ -165,7 +133,7 @@ export default function Calculator() {
           <History size="20px" onClick={() => setOpenHistoryList(true)} />
         </Tool>
         <Previous>{previous}</Previous>
-        <Current className="current" ref={CurrentRef} $fontSize={AllotCurrentFontSize}>
+        <Current className="current" ref={CurrentRef} >
           {current}
         </Current>
       </Screen>

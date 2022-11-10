@@ -47,8 +47,8 @@ export const Previous = styled.div`
   align-items: flex-end;
 `;
 
-export const Current = styled.div<{ $fontSize: number }>`
-  font-size: ${(props) => props.$fontSize}px;
+export const Current = styled.div`
+  font-size: 1.5rem;
   white-space: nowrap;
 `;
 

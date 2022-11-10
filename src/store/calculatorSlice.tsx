@@ -29,7 +29,6 @@ export const calculatorSlice = createSlice({
       state.history.unshift(temp);
     }
   },
-  extraReducers: {},
 });
 
 export const { changeTheme, saveExpression, cleanExpression, clickExpressionItem } = calculatorSlice.actions;
