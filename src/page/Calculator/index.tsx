@@ -42,14 +42,22 @@ export default function Calculator() {
     )
       return;
 
+    console.log("current---", current);
+
     // 若沒有數字情況下點擊按鈕，需補 0 在前面
-    if (current.length === 0 && (value === "." || value === "+" || value === "-" || value === "x" || value === "÷")) {
-      setCurrent(0 + value);
-    } else {
-      setCurrent(current + value);
-    }
-    // listenerAlive();
+
+    setCurrent((prev: string) => {
+      if (prev.length === 0 && (value === "." || value === "+" || value === "-" || value === "x" || value === "÷")) {
+        return 0 + value;
+      } else {
+        return prev + value;
+      }
+    });
   };
+
+  useEffect(() => {
+    console.log("useEffect current---", current);
+  }, [current]);
 
   // ←
   const handleDelete = () => {
@@ -77,6 +85,8 @@ export default function Calculator() {
 
   // =
   const equals = () => {
+    console.log();
+
     if (current === "") return;
 
     let sliceTempCurrent = current;
@@ -115,11 +125,21 @@ export default function Calculator() {
     }
   };
 
+  // 鍵盤事件
+  const handleKeyDown = (event: KeyboardEvent) => {
+    console.log("handleKeyDown current", current, event.key);
+
+    const checkKeyDownBtn = Btns.findIndex((item: BtnType) => event.key === item.keydown);
+
+    if (checkKeyDownBtn === -1) return;
+    btnClick(Btns[checkKeyDownBtn]);
+  };
+
   useEffect(() => {
-    // window.addEventListener("resize", listenerAlive);
-    // return () => {
-    //   window.removeEventListener("resize", listenerAlive);
-    // };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
   }, []);
 
   return (
@@ -133,7 +153,7 @@ export default function Calculator() {
           <History size="20px" onClick={() => setOpenHistoryList(true)} />
         </Tool>
         <Previous>{previous}</Previous>
-        <Current className="current" ref={CurrentRef} >
+        <Current className="current" ref={CurrentRef}>
           {current}
         </Current>
       </Screen>
