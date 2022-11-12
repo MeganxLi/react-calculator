@@ -9,6 +9,7 @@ interface stateType {
 
 interface BtnType {
   display: string | Icon;
+  keydown: string;
   action: string;
   control?: boolean;
   gridSpan?: number;

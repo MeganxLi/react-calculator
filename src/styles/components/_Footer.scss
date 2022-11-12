@@ -1,0 +1,19 @@
+footer {
+  width: 100%;
+  position: absolute;
+  bottom: 10px;
+
+  @include rwd-max(sm) {
+    display: none;
+  }
+
+  p {
+    text-align: center;
+    color: #c8c8c8;
+  }
+
+  a {
+    color: #fff;
+    margin-left: 4px;
+  }
+}

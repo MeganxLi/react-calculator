@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
-import { Moon, SunOne, History } from "@icon-park/react";
+import { Moon, SunOne, History, Copy } from "@icon-park/react";
 import { useAppDispatch, useAppSelector } from "../../store/hook";
 import { changeTheme, saveExpression } from "../../store/calculatorSlice";
 
-import { Btns, BTN_ACTIONS } from "../../contexts/btnsConfig";
+import { Btns, BTN_ACTIONS } from "../../contexts/BtnsConfig";
 import {
   Container,
   Screen,
@@ -15,6 +15,8 @@ import {
   ThemeButton,
 } from "../../styled/Container";
 import HistoryList from "./HistoryList";
+import Message from "../../components/Message";
+import { CopyScope } from "../../contexts/EnumType";
 
 export default function Calculator() {
   const dispatch = useAppDispatch();
@@ -25,35 +27,37 @@ export default function Calculator() {
   const [current, setCurrent] = useState<string>("");
   const [previous, setPrevious] = useState<string>("");
 
-  // 變更 current font-size
-  const ScreenRef = useRef<HTMLDivElement>(null);
-  const CurrentRef = useRef<HTMLDivElement>(null);
+  // copy meg
+  const [isCopied, setIsCopied] = useState<boolean>(false);
 
   const appendValue = (value: string) => {
     // includes 判斷陣列是否包含特定的元素，並回傳 true 或 false
     //在到達呼叫 return 的地方後，函式會立即停止
+
+    const lastText = current.slice(-1);
     if (
-      (value === "." && current.slice(-1) === ".") ||
-      (value === "+" && current.slice(-1) === "+") ||
-      (value === "-" && current.slice(-1) === "-") ||
-      (value === "x" && current.slice(-1) === "x") ||
-      (value === "÷" && current.slice(-1) === "÷") ||
-      current.length > 12
+      (value === "." && lastText === ".") ||
+      (value === "+" && lastText === "+") ||
+      (value === "-" && lastText === "-") ||
+      (value === "x" && lastText === "x") ||
+      (value === "÷" && lastText === "÷") ||
+      (lastText === "+" || lastText === "-") && (value === "x" || value === "÷")
     )
       return;
 
     // 若沒有數字情況下點擊按鈕，需補 0 在前面
-    if (current.length === 0 && (value === "." || value === "+" || value === "-" || value === "x" || value === "÷")) {
-      setCurrent(0 + value);
-    } else {
-      setCurrent(current + value);
-    }
-    // listenerAlive();
+    setCurrent((prev: string) => {
+      if (prev.length === 0 && (value === "." || value === "+" || value === "-" || value === "x" || value === "÷")) {
+        return 0 + value;
+      } else {
+        return prev + value;
+      }
+    });
   };
 
   // ←
   const handleDelete = () => {
-    setCurrent(String(current).slice(0, -1));
+    setCurrent(prev => prev.slice(0, -1));
   };
 
   // C
@@ -115,16 +119,46 @@ export default function Calculator() {
     }
   };
 
+  // 鍵盤事件
+  const handleKeyDown = (event: KeyboardEvent) => {
+    const checkKeyDownBtn = Btns.findIndex((item: BtnType) => event.key === item.keydown);
+
+    if (checkKeyDownBtn === -1) return;
+    btnClick(Btns[checkKeyDownBtn]);
+  };
+
   useEffect(() => {
-    // window.addEventListener("resize", listenerAlive);
-    // return () => {
-    //   window.removeEventListener("resize", listenerAlive);
-    // };
-  }, []);
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [handleKeyDown]);
+
+  // copy expression
+  const copyTextToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text)
+      .then(() => {
+        setIsCopied(true);
+        setTimeout(() => {
+          setIsCopied(false);
+        }, 2000);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const handleCopy = (scope: number) => {
+    if (scope === CopyScope.Previous) {
+      copyTextToClipboard(previous + current);
+    } else if (scope === CopyScope.Current) {
+      copyTextToClipboard(current);
+    }
+  };
 
   return (
     <Container className="container ">
-      <Screen ref={ScreenRef}>
+      <Screen className="screen" >
         <Tool>
           <ThemeButton onClick={() => dispatch(changeTheme())}>
             <SunOne size="20px" className={darkTheme ? undefined : "action"} />
@@ -132,8 +166,8 @@ export default function Calculator() {
           </ThemeButton>
           <History size="20px" onClick={() => setOpenHistoryList(true)} />
         </Tool>
-        <Previous>{previous}</Previous>
-        <Current className="current" ref={CurrentRef} >
+        <Previous onClick={() => handleCopy(CopyScope.Previous)}>{previous}</Previous>
+        <Current className="current" onClick={() => handleCopy(CopyScope.Current)}>
           {current}
         </Current>
       </Screen>
@@ -158,6 +192,7 @@ export default function Calculator() {
         setCurrent={setCurrent}
         setPrevious={setPrevious}
       />
+      <Message text={<><Copy /> Copied!</>} isCopied={isCopied} />
     </Container>
   );
 }
