@@ -32,20 +32,19 @@ export default function Calculator() {
   const appendValue = (value: string) => {
     // includes 判斷陣列是否包含特定的元素，並回傳 true 或 false
     //在到達呼叫 return 的地方後，函式會立即停止
+
+    const lastText = current.slice(-1);
     if (
-      (value === "." && current.slice(-1) === ".") ||
-      (value === "+" && current.slice(-1) === "+") ||
-      (value === "-" && current.slice(-1) === "-") ||
-      (value === "x" && current.slice(-1) === "x") ||
-      (value === "÷" && current.slice(-1) === "÷") ||
-      current.length > 12
+      (value === "." && lastText === ".") ||
+      (value === "+" && lastText === "+") ||
+      (value === "-" && lastText === "-") ||
+      (value === "x" && lastText === "x") ||
+      (value === "÷" && lastText === "÷") ||
+      (lastText === "+" || lastText === "-") && (value === "x" || value === "÷")
     )
       return;
 
-    console.log("current---", current);
-
     // 若沒有數字情況下點擊按鈕，需補 0 在前面
-
     setCurrent((prev: string) => {
       if (prev.length === 0 && (value === "." || value === "+" || value === "-" || value === "x" || value === "÷")) {
         return 0 + value;
@@ -55,13 +54,9 @@ export default function Calculator() {
     });
   };
 
-  useEffect(() => {
-    console.log("useEffect current---", current);
-  }, [current]);
-
   // ←
   const handleDelete = () => {
-    setCurrent(String(current).slice(0, -1));
+    setCurrent(prev => prev.slice(0, -1));
   };
 
   // C
@@ -85,8 +80,6 @@ export default function Calculator() {
 
   // =
   const equals = () => {
-    console.log();
-
     if (current === "") return;
 
     let sliceTempCurrent = current;
@@ -127,8 +120,6 @@ export default function Calculator() {
 
   // 鍵盤事件
   const handleKeyDown = (event: KeyboardEvent) => {
-    console.log("handleKeyDown current", current, event.key);
-
     const checkKeyDownBtn = Btns.findIndex((item: BtnType) => event.key === item.keydown);
 
     if (checkKeyDownBtn === -1) return;
@@ -140,11 +131,11 @@ export default function Calculator() {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, []);
+  }, [handleKeyDown]);
 
   return (
     <Container className="container ">
-      <Screen ref={ScreenRef}>
+      <Screen className="screen" ref={ScreenRef}>
         <Tool>
           <ThemeButton onClick={() => dispatch(changeTheme())}>
             <SunOne size="20px" className={darkTheme ? undefined : "action"} />
