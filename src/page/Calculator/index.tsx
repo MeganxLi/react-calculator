@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
-import { Moon, SunOne, History } from "@icon-park/react";
+import { Moon, SunOne, History, Copy } from "@icon-park/react";
 import { useAppDispatch, useAppSelector } from "../../store/hook";
 import { changeTheme, saveExpression } from "../../store/calculatorSlice";
 
-import { Btns, BTN_ACTIONS } from "../../contexts/btnsConfig";
+import { Btns, BTN_ACTIONS } from "../../contexts/BtnsConfig";
 import {
   Container,
   Screen,
@@ -15,6 +15,8 @@ import {
   ThemeButton,
 } from "../../styled/Container";
 import HistoryList from "./HistoryList";
+import Message from "../../components/Message";
+import { CopyScope } from "../../contexts/EnumType";
 
 export default function Calculator() {
   const dispatch = useAppDispatch();
@@ -25,9 +27,8 @@ export default function Calculator() {
   const [current, setCurrent] = useState<string>("");
   const [previous, setPrevious] = useState<string>("");
 
-  // 變更 current font-size
-  const ScreenRef = useRef<HTMLDivElement>(null);
-  const CurrentRef = useRef<HTMLDivElement>(null);
+  // copy meg
+  const [isCopied, setIsCopied] = useState<boolean>(false);
 
   const appendValue = (value: string) => {
     // includes 判斷陣列是否包含特定的元素，並回傳 true 或 false
@@ -133,9 +134,31 @@ export default function Calculator() {
     };
   }, [handleKeyDown]);
 
+  // copy expression
+  const copyTextToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text)
+      .then(() => {
+        setIsCopied(true);
+        setTimeout(() => {
+          setIsCopied(false);
+        }, 2000);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const handleCopy = (scope: number) => {
+    if (scope === CopyScope.Previous) {
+      copyTextToClipboard(previous + current);
+    } else if (scope === CopyScope.Current) {
+      copyTextToClipboard(current);
+    }
+  };
+
   return (
     <Container className="container ">
-      <Screen className="screen" ref={ScreenRef}>
+      <Screen className="screen" >
         <Tool>
           <ThemeButton onClick={() => dispatch(changeTheme())}>
             <SunOne size="20px" className={darkTheme ? undefined : "action"} />
@@ -143,8 +166,8 @@ export default function Calculator() {
           </ThemeButton>
           <History size="20px" onClick={() => setOpenHistoryList(true)} />
         </Tool>
-        <Previous>{previous}</Previous>
-        <Current className="current" ref={CurrentRef}>
+        <Previous onClick={() => handleCopy(CopyScope.Previous)}>{previous}</Previous>
+        <Current className="current" onClick={() => handleCopy(CopyScope.Current)}>
           {current}
         </Current>
       </Screen>
@@ -169,6 +192,7 @@ export default function Calculator() {
         setCurrent={setCurrent}
         setPrevious={setPrevious}
       />
+      <Message text={<><Copy /> Copied!</>} isCopied={isCopied} />
     </Container>
   );
 }

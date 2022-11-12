@@ -39,7 +39,17 @@ export const Screen = styled.div`
   border-top-right-radius: 10px;
 `;
 
-export const Previous = styled.div`
+export const ExpressionHover = styled.div`
+  padding: 0 4px;
+  cursor: pointer;
+  
+  &:hover {
+    background-color: rgb(91 91 117 / 30%);
+    border-radius: 5px;
+  }
+`;
+
+export const Previous = styled(ExpressionHover)`
   color: var(--Previous);
   font-size: 1.5rem;
   display: flex;
@@ -47,7 +57,7 @@ export const Previous = styled.div`
   align-items: flex-end;
 `;
 
-export const Current = styled.div`
+export const Current = styled(ExpressionHover)`
   font-size: 2.5rem;
 `;
 
