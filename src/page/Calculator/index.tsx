@@ -141,7 +141,7 @@ export default function Calculator() {
         setIsCopied(true);
         setTimeout(() => {
           setIsCopied(false);
-        }, 2000);
+        }, 1500);
       })
       .catch((err) => {
         console.log(err);

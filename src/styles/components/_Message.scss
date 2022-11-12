@@ -13,6 +13,6 @@
 
   &.show {
     visibility: visible;
-    animation: slide-top-X 0.5s, slide-bottom 0.5s 1.5s;
+    animation: slide-top-X 0.3s, slide-bottom 0.2s linear 1.4s;
   }
 }
