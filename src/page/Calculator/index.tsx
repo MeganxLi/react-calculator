@@ -3,7 +3,7 @@ import { Moon, SunOne, History, Copy } from "@icon-park/react";
 import { useAppDispatch, useAppSelector } from "../../store/hook";
 import { changeTheme, saveExpression } from "../../store/calculatorSlice";
 
-import { Btns, BTN_ACTIONS } from "../../contexts/BtnsConfig";
+import { Btns, BTN_ACTIONS } from "../../contexts/ButtonConfig";
 import {
   Container,
   Screen,
@@ -174,6 +174,7 @@ export default function Calculator() {
       <ButtonContainer>
         {Btns.map((item, index) => (
           <Button
+            aria-label={item.ariaLabel}
             control={item.control}
             gridSpan={item.gridSpan}
             data={item.data}

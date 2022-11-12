@@ -11,6 +11,7 @@ interface BtnType {
   display: string | Icon;
   keydown: string;
   action: string;
+  ariaLabel?: string; // 無障礙使用
   control?: boolean;
   gridSpan?: number;
   data?: string;

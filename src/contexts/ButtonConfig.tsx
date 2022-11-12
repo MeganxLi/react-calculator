@@ -12,6 +12,7 @@ export const Btns: BtnType[] = [
     display: "C",
     keydown: "Delete",
     action: BTN_ACTIONS.CLEAN,
+    ariaLabel: "clean",
     control: true,
   },
   {
@@ -99,6 +100,7 @@ export const Btns: BtnType[] = [
     display: <GoOn size="28px" />,
     keydown: "Backspace",
     action: BTN_ACTIONS.DELETE,
+    ariaLabel: "delete",
     control: true,
   },
   {

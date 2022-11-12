@@ -22,7 +22,6 @@ const HistoryList = ({ OpenHistoryList, setOpenHistoryList, setCurrent, setPrevi
     e.stopPropagation();
   };
 
-
   const CleanHistoryList = () => {
     dispatch(cleanExpression());
   };
@@ -35,7 +34,6 @@ const HistoryList = ({ OpenHistoryList, setOpenHistoryList, setCurrent, setPrevi
     dispatch(clickExpressionItem(idx));
 
   };
-
 
   return (
     <HistoryContainer show={OpenHistoryList} onClick={CloseHistoryList}>
