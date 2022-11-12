@@ -28,7 +28,8 @@
       "files": ["*.jsx", "*.tsx"],
       "rules": {
         "@typescript-eslint/explicit-module-boundary-types": ["off"],
-        "no-multiple-empty-lines": "error"
+        "no-multiple-empty-lines": ["error", { "max": 1 }],
+        "max-len": ["error", { "code": 120, "ignoreTrailingComments": true, "ignoreUrls": true }]
       }
     }
   ]
