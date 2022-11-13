@@ -86,13 +86,15 @@ export default function Calculator() {
     let sliceTempCurrent = current;
 
     // 排除最後一個字非數字
-    if (isNaN(Number(sliceTempCurrent.slice(-1)))) {
-      sliceTempCurrent = String(current).slice(0, -1);
+    const lastText = sliceTempCurrent.slice(-1);
+    if (isNaN(Number(lastText)) && lastText !== ")") {
+      sliceTempCurrent = String(sliceTempCurrent).slice(0, -1);
     }
 
     try {
       const newPrevious = sliceTempCurrent + "=";
       const total = eval(handleReplaceText(sliceTempCurrent)).toString();
+
       setPrevious(newPrevious);
       setCurrent(total);
 
@@ -100,7 +102,7 @@ export default function Calculator() {
       dispatch(saveExpression({ expression: newPrevious, total: total }));
     } catch {
       setPrevious(current + "=");
-      setCurrent("0");
+      setCurrent("Syntax err");
     }
   };
 
