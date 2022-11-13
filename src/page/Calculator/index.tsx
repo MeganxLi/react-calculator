@@ -121,7 +121,9 @@ export default function Calculator() {
 
   // 鍵盤事件
   const handleKeyDown = (event: KeyboardEvent) => {
-    const checkKeyDownBtn = Btns.findIndex((item: BtnType) => event.key === item.keydown);
+    const checkKeyDownBtn = Btns.findIndex((item: BtnType) => {
+      return item.keydown.some((key: string) => event.key === key);
+    });
 
     if (checkKeyDownBtn === -1) return;
     btnClick(Btns[checkKeyDownBtn]);
