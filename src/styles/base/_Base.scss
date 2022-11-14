@@ -8,11 +8,6 @@
   font-weight: normal;
 }
 
-html {
-  background: var(--Body-Background);
-  background-attachment: fixed; // 漸層填滿
-}
-
 body {
   margin: 0;
   padding: 0;
@@ -21,4 +16,6 @@ body {
     "Droid Sans", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: var(--Body-Background);
+  background-attachment: fixed; // 漸層填滿
 }

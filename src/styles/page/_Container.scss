@@ -11,7 +11,7 @@ $spacing: 40px;
     max-width: 375px;
     max-height: 812px;
     min-height: 500px;
-    height: calc(100vh - $spacing * 4);
+    height: calc(100vh - $spacing * 3);
     border: 12px solid var(--Mobile-Border);
     border-radius: 36px;
     position: relative;
