@@ -10,11 +10,12 @@ $spacing: 40px;
   @include rwd-min(sm) {
     max-width: 375px;
     max-height: 812px;
+    min-height: 500px;
+    height: calc(100vh - $spacing * 4);
     border: 12px solid var(--Mobile-Border);
     border-radius: 36px;
     position: relative;
     overflow: hidden;
-    height: calc(100vh - $spacing * 2);
     margin: $spacing auto;
 
     &::before {

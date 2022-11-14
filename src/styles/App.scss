@@ -1,15 +1,15 @@
 //utils
-@import "utils/mixins";
-@import "utils/variables";
-@import "utils/animation";
+@import "./utils/mixins";
+@import "./utils/variables";
+@import "./utils/animation";
 
 //base
-@import "base/reset";
-@import "base/base";
+@import "./base/reset";
+@import "./base/base";
 
 //components
-@import "components/footer";
-@import "components/message";
+@import "./components/footer";
+@import "./components/message";
 
 //page
-@import "page/container";
+@import "./page/container";

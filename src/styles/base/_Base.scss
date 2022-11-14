@@ -9,13 +9,13 @@
 }
 
 html {
-  height: 100%;
+  background: var(--Body-Background);
+  background-attachment: fixed; // 漸層填滿
 }
 
 body {
   margin: 0;
   padding: 0;
-  background: var(--Body-Background);
   color: var(--Text);
   font-family: "Red Hat Text", sans-serif, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
     "Droid Sans", "Helvetica Neue", sans-serif;
