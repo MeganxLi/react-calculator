@@ -28,7 +28,7 @@ export const Screen = styled.div`
   flex: 1 0;
   display: grid;
   align-items: end;
-  grid-template-rows: 40px auto 50px;
+  grid-template-rows: 40px auto minmax(50px, min-content);
   gap: 1rem;
   color: var(--Text);
   font-weight: 500;
