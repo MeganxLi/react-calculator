@@ -71,9 +71,10 @@ export default function Calculator() {
     let tempCurrent = expression;
 
     if (tempCurrent.includes("x")) {
-      tempCurrent = tempCurrent.replace("x", "*");
-    } else if (tempCurrent.includes("÷")) {
-      tempCurrent = tempCurrent.replace("÷", "/");
+      tempCurrent = tempCurrent.replace(/x/g, "*");
+    }
+    if (tempCurrent.includes("÷")) {
+      tempCurrent = tempCurrent.replace(/÷/g, "/");
     }
 
     return tempCurrent;
