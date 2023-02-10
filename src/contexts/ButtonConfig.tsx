@@ -18,12 +18,14 @@ export const Btns: BtnType[] = [
   {
     display: "(",
     keydown: ["(", "ㄞ"],
+    ctrl: true,
     action: BTN_ACTIONS.ADD,
     control: true,
   },
   {
     display: ")",
     keydown: [")", "ㄢ"],
+    ctrl: true,
     action: BTN_ACTIONS.ADD,
     control: true,
   },

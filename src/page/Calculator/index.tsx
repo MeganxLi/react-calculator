@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Moon, SunOne, History, Copy } from "@icon-park/react";
 import { useAppDispatch, useAppSelector } from "../../store/hook";
 import { changeTheme, saveExpression } from "../../store/calculatorSlice";
@@ -29,6 +29,8 @@ export default function Calculator() {
 
   // copy meg
   const [isCopied, setIsCopied] = useState<boolean>(false);
+  // 判斷是否有點擊 ctrl
+  const [isClickCtrl, setIsClickCtrl] = useState<boolean>(false);
 
   const appendValue = (value: string) => {
     // includes 判斷陣列是否包含特定的元素，並回傳 true 或 false
@@ -41,7 +43,7 @@ export default function Calculator() {
       (value === "-" && lastText === "-") ||
       (value === "x" && lastText === "x") ||
       (value === "÷" && lastText === "÷") ||
-      (lastText === "+" || lastText === "-") && (value === "x" || value === "÷")
+      ((lastText === "+" || lastText === "-") && (value === "x" || value === "÷"))
     )
       return;
 
@@ -57,7 +59,7 @@ export default function Calculator() {
 
   // ←
   const handleDelete = () => {
-    setCurrent(prev => prev.slice(0, -1));
+    setCurrent((prev) => prev.slice(0, -1));
   };
 
   // C
@@ -124,24 +126,54 @@ export default function Calculator() {
 
   // 鍵盤事件
   const handleKeyDown = (event: KeyboardEvent) => {
+    // const checkKeyDownBtn: number = -1;
+    if (event.key === "Control") {
+      setIsClickCtrl(true);
+    }
+
+    if (isClickCtrl) {
+      console.log("YES");
+    }
+
+    console.log(event.key);
+    // const checkKeyDownBtn = Btns.findIndex((item: BtnType) => {
+    //   return item.keydown.some((key: string) => event.key === key);
+    // });
+
     const checkKeyDownBtn = Btns.findIndex((item: BtnType) => {
-      return item.keydown.some((key: string) => event.key === key);
+      console.log(item.keydown.some((key: string) => event.key === key));
+      if (isClickCtrl) {
+        return item.keydown.some((key: string) => event.key === key);
+      } else {
+        return item.keydown.some((key: string) => event.key === key) && !item.ctrl;
+      }
     });
+
+    console.log("checkKeyDownBtn", checkKeyDownBtn);
 
     if (checkKeyDownBtn === -1) return;
     btnClick(Btns[checkKeyDownBtn]);
   };
 
+  const handleKeyUp = (event: KeyboardEvent) => {
+    if (event.key === "Control") {
+      setIsClickCtrl(false);
+    }
+  };
+
   useEffect(() => {
     window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("keyup", handleKeyUp);
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("keyup", handleKeyUp);
     };
-  }, [handleKeyDown]);
+  }, [handleKeyDown, handleKeyUp]);
 
   // copy expression
   const copyTextToClipboard = (text: string) => {
-    navigator.clipboard.writeText(text)
+    navigator.clipboard
+      .writeText(text)
       .then(() => {
         setIsCopied(true);
         setTimeout(() => {
@@ -163,7 +195,7 @@ export default function Calculator() {
 
   return (
     <Container className="container ">
-      <Screen className="screen" >
+      <Screen className="screen">
         <Tool>
           <ThemeButton onClick={() => dispatch(changeTheme())}>
             <SunOne size="20px" className={darkTheme ? undefined : "action"} />
@@ -198,7 +230,14 @@ export default function Calculator() {
         setCurrent={setCurrent}
         setPrevious={setPrevious}
       />
-      <Message text={<><Copy /> Copied!</>} isCopied={isCopied} />
+      <Message
+        text={
+          <>
+            <Copy /> Copied!
+          </>
+        }
+        isCopied={isCopied}
+      />
     </Container>
   );
 }
