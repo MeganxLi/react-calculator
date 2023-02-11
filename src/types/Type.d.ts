@@ -10,6 +10,7 @@ interface stateType {
 interface BtnType {
   display: string | Icon;
   keydown: string[];
+  ctrl?: boolean;
   action: string;
   ariaLabel?: string; // 無障礙使用
   control?: boolean;

@@ -17,13 +17,15 @@ export const Btns: BtnType[] = [
   },
   {
     display: "(",
-    keydown: ["(", "ㄞ"],
+    keydown: ["(", "ㄞ", "9"],
+    ctrl: true,
     action: BTN_ACTIONS.ADD,
     control: true,
   },
   {
     display: ")",
-    keydown: [")", "ㄢ"],
+    keydown: [")", "ㄢ", "0"],
+    ctrl: true,
     action: BTN_ACTIONS.ADD,
     control: true,
   },
