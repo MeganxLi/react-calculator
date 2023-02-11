@@ -125,40 +125,27 @@ export default function Calculator() {
   };
 
   // 鍵盤事件
+  const specialKey = (key: string) => {
+    if (key === "Control" || key === "Shift") {
+      setIsClickCtrl(!isClickCtrl);
+    }
+  };
+
   const handleKeyDown = (event: KeyboardEvent) => {
-    // const checkKeyDownBtn: number = -1;
-    if (event.key === "Control") {
-      setIsClickCtrl(true);
-    }
-
-    if (isClickCtrl) {
-      console.log("YES");
-    }
-
-    console.log(event.key);
-    // const checkKeyDownBtn = Btns.findIndex((item: BtnType) => {
-    //   return item.keydown.some((key: string) => event.key === key);
-    // });
+    // click ctrl or shift keydown
+    specialKey(event.key);
 
     const checkKeyDownBtn = Btns.findIndex((item: BtnType) => {
-      console.log(item.keydown.some((key: string) => event.key === key));
-      if (isClickCtrl) {
-        return item.keydown.some((key: string) => event.key === key);
-      } else {
-        return item.keydown.some((key: string) => event.key === key) && !item.ctrl;
-      }
+      const clickCtrl = isClickCtrl ? item.ctrl : !item.ctrl;
+      return item.keydown.some((key: string) => event.key === key) && clickCtrl;
     });
-
-    console.log("checkKeyDownBtn", checkKeyDownBtn);
 
     if (checkKeyDownBtn === -1) return;
     btnClick(Btns[checkKeyDownBtn]);
   };
 
   const handleKeyUp = (event: KeyboardEvent) => {
-    if (event.key === "Control") {
-      setIsClickCtrl(false);
-    }
+    specialKey(event.key);
   };
 
   useEffect(() => {
