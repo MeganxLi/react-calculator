@@ -110,7 +110,6 @@ export default function Calculator() {
   };
 
   const btnClick = (btnItem: BtnType) => {
-    console.log("btnClick----", btnItem);
     switch (btnItem.action) {
       case BTN_ACTIONS.ADD:
         return appendValue(btnItem.display);
@@ -142,7 +141,6 @@ export default function Calculator() {
     });
 
     if (checkKeyDownBtn === -1) return;
-    console.log("key", event.key, checkKeyDownBtn);
     btnClick(Btns[checkKeyDownBtn]);
   };
 
