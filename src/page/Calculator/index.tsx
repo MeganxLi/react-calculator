@@ -37,6 +37,7 @@ export default function Calculator() {
     //在到達呼叫 return 的地方後，函式會立即停止
 
     const lastText = current.slice(-1);
+    // + - 後面不能有 x ÷，但 + - 後面可以有自己，有可能代表正數負數
     if (
       (value === "." && lastText === ".") ||
       (value === "+" && lastText === "+") ||
@@ -97,7 +98,6 @@ export default function Calculator() {
     try {
       const newPrevious = sliceTempCurrent + "=";
       const total = eval(handleReplaceText(sliceTempCurrent)).toString();
-
       setPrevious(newPrevious);
       setCurrent(total);
 
@@ -110,6 +110,7 @@ export default function Calculator() {
   };
 
   const btnClick = (btnItem: BtnType) => {
+    console.log("btnClick----", btnItem);
     switch (btnItem.action) {
       case BTN_ACTIONS.ADD:
         return appendValue(btnItem.display);
@@ -141,6 +142,7 @@ export default function Calculator() {
     });
 
     if (checkKeyDownBtn === -1) return;
+    console.log("key", event.key, checkKeyDownBtn);
     btnClick(Btns[checkKeyDownBtn]);
   };
 

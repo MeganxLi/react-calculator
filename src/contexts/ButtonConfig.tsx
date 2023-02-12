@@ -10,7 +10,7 @@ export const BTN_ACTIONS = {
 export const Btns: BtnType[] = [
   {
     display: "C",
-    keydown: ["Delete"],
+    keydown: ["Delete", "Escape"],
     action: BTN_ACTIONS.CLEAN,
     ariaLabel: "clean",
     control: true,
@@ -52,7 +52,8 @@ export const Btns: BtnType[] = [
   },
   {
     display: "x",
-    keydown: ["*", "＊"],
+    keydown: ["*", "＊", "8"],
+    ctrl: true,
     action: BTN_ACTIONS.ADD,
     operation: true,
   },
@@ -73,7 +74,8 @@ export const Btns: BtnType[] = [
   },
   {
     display: "+",
-    keydown: ["+", "＋"],
+    keydown: ["+", "＋", "=", "＝"],
+    ctrl: true,
     action: BTN_ACTIONS.ADD,
     operation: true,
   },
