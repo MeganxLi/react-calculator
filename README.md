@@ -5,6 +5,7 @@
 ## Website Display
 ![calculator](https://user-images.githubusercontent.com/87239200/201577943-11e16c71-b2d7-40e5-913c-938d08f03d81.png)
 
+<p align="center"><a href="https://meganxli.github.io/react-calculator/" target="_blank">Demo website</a></p>
 
 
 ## 頁面規劃
