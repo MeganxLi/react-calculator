@@ -1,4 +1,4 @@
-# react-calculator
+# React Calculator 計算機
 
 簡易版計算機，支援加, 減, 乘, 除及括號數學計算功能，並儲存計算紀錄，處理日常生活所需的各種計算。
 
@@ -12,8 +12,8 @@
 
 ### 工具
 
-- Template of: React + Redux RTK
-- CSS: Scss, Styled-components
+- Template of: [React](https://react.dev/) + [Redux RTK](https://redux-toolkit.js.org/rtk-query/overview)
+- CSS: Scss, [Styled-components](https://styled-components.com/)
 
 ### 功能
 
@@ -27,7 +27,7 @@
 - 計算歷史紀錄
   - 紀錄 10 筆計算公式
   - 清除所有紀錄
-  - 點擊可復原計算式
+  - 點擊復原計算值
 
 ## 設置
 
