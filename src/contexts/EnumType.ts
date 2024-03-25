@@ -3,4 +3,4 @@ export enum CopyScope {
   Current = 1,
 }
 
-export const Precision = 14;
+export const Precision = 10;
