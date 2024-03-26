@@ -111,8 +111,9 @@ export const HistoryContainer = styled.div<{ show: boolean }>`
   display: ${props => props.show ? "inline-block" : "none"};
   position: absolute;
   background-color: rgb(0 0 0 / 50%);
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
+  bottom: 0;
 `;
 
 export const HistoryBlock = styled.div`

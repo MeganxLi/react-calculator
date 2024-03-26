@@ -17,6 +17,7 @@ const HistoryList = ({ OpenHistoryList, setOpenHistoryList, setCurrent, setPrevi
 
   const CloseHistoryList = () => {
     setOpenHistoryList(false);
+    document.body.style.overflow = "auto";
   };
   const Stop = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();

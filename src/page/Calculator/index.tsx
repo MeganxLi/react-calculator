@@ -181,6 +181,11 @@ export default function Calculator() {
     }
   };
 
+  const clickHistoryList = () => {
+    setOpenHistoryList(true);
+    document.body.style.overflow = "hidden";
+  };
+
   return (
     <Container className="container ">
       <Screen className="screen">
@@ -189,7 +194,7 @@ export default function Calculator() {
             <SunOne size="20px" className={darkTheme ? undefined : "action"} />
             <Moon size="20px" className={darkTheme ? "action" : undefined} />
           </ThemeButton>
-          <History size="20px" onClick={() => setOpenHistoryList(true)} />
+          <History size="20px" onClick={clickHistoryList} />
         </Tool>
         <Previous onClick={() => handleCopy(CopyScope.Previous)}>{previous}</Previous>
         <Current className="current" onClick={() => handleCopy(CopyScope.Current)}>
