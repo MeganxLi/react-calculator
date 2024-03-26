@@ -16,7 +16,7 @@ import {
 } from "../../styled/Container";
 import HistoryList from "./HistoryList";
 import Message from "../../components/Message";
-import { CopyScope, Precision } from "../../contexts/EnumType";
+import { CopyScope, mathjsOptions } from "../../contexts/EnumType";
 import { evaluate, format } from "mathjs";
 
 export default function Calculator() {
@@ -98,7 +98,7 @@ export default function Calculator() {
 
     try {
       const newPrevious = sliceTempCurrent + "=";
-      const total = format(evaluate(handleReplaceText(sliceTempCurrent)), Precision);
+      const total = format(evaluate(handleReplaceText(sliceTempCurrent)), mathjsOptions).replace(/\.?0+$/, "");
       setPrevious(newPrevious);
       setCurrent(total);
 
