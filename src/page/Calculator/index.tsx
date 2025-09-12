@@ -120,8 +120,8 @@ export default function Calculator() {
     result = result.replace(/(\d+)\.\s*([+\-x÷)])/g, "$1$2");
 
     // 規則 3: 如果最後一個不是數字或右括號 → 刪掉
-    const lastText = result.slice(-1);
-    if (isNaN(Number(lastText)) && lastText !== ")") {
+    // 規則 4: 連續運算符 → 只保留最後一個，需要使用 while 循環 (0x9x+ → 0x9)
+    while (result && isNaN(Number(result.slice(-1))) && result.slice(-1) !== ")") {
       result = result.slice(0, -1);
     }
     
