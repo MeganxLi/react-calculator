@@ -20,6 +20,7 @@ import { CopyScope, mathjsOptions } from "../../contexts/EnumType";
 import { evaluate, format } from "mathjs";
 
 export default function Calculator() {
+  const operators = ["+", "-", "x", "÷", "."]; 
   const dispatch = useAppDispatch();
   const { darkTheme } = useAppSelector((state) => state.calculator);
   const [OpenHistoryList, setOpenHistoryList] = useState<boolean>(false);
@@ -33,30 +34,55 @@ export default function Calculator() {
   // 判斷是否有點擊 ctrl
   const [isClickCtrl, setIsClickCtrl] = useState<boolean>(false);
 
+  const  handleOperatorInput = (operators:string[], current: string, value: string): string=> {
+    const last = current.slice(-1);
+    const secondLast = current.slice(-2, -1);
+    
+    // 1. 禁止重複輸入相同符號 (例如 ++、--、xx、÷÷)
+    if (last === value) {
+      return current;
+    }
+
+    // 2.當沒有數字以及沒有計算列情況下點擊運算(加減乘除)，需補 0 在前面
+    if(current.length === 0){
+       return 0 + value;
+    }
+
+    // 3. 運算符只允許最後出現-，其餘到都到 4 替換
+    if ((last === "+" || last === "x" || last === "÷") && value === "-" && !operators.includes(secondLast) ) {
+      return current + value;
+    }
+
+    // 4. 尾端是任意運算符，再按 x ÷ → 替換
+    if (operators.includes(last)) {
+      if(operators.includes(secondLast)){
+        // 因 3 替換倒數第二個運算符
+        return current.slice(0, -2) + value;
+      } else {
+        return current.slice(0, -1) + value;
+      }
+    }
+
+    // 正常情況直接加上
+    return current + value;
+  };
+
   const appendValue = (value: string) => {
     // includes 判斷陣列是否包含特定的元素，並回傳 true 或 false
-    //在到達呼叫 return 的地方後，函式會立即停止
-
-    const lastText = current.slice(-1);
-    // + - 後面不能有 x ÷，但 + - 後面可以有自己，有可能代表正數負數
-    if (
-      (value === "." && lastText === ".") ||
-      (value === "+" && lastText === "+") ||
-      (value === "-" && lastText === "-") ||
-      (value === "x" && lastText === "x") ||
-      (value === "÷" && lastText === "÷") ||
-      ((lastText === "+" || lastText === "-") && (value === "x" || value === "÷"))
-    )
-      return;
-
-    // 若沒有數字情況下點擊按鈕，需補 0 在前面
-    setCurrent((prev: string) => {
-      if (prev.length === 0 && (value === "." || value === "+" || value === "-" || value === "x" || value === "÷")) {
-        return 0 + value;
+   
+    // 判斷是否還在點擊運算
+    if(operators.includes(value)){
+       setCurrent(prev => handleOperatorInput(operators, prev, value));
+    } else {
+       // 這邊是判斷點擊數字
+      if(previous!==""){
+        // 當有計算列的情況下點擊 . 必須以新的開始
+          setCurrent(value === "." ? "0." : value);
       } else {
-        return prev + value;
+        setCurrent(prev=> prev + value);
       }
-    });
+    }
+     setPrevious("");
   };
 
   // ←
@@ -84,17 +110,32 @@ export default function Calculator() {
     return tempCurrent;
   };
 
+  // previous 正規化
+  const sanitizeFormula=(formula: string): string=>{
+    let result = String(formula);
+
+    // 規則 1: 運算符號後面直接跟小數 (.3 → 0.3)
+    result = result.replace(/([+\-x÷(])\.(\d+)/g, "$10.$2");
+
+    // 規則 2: 數字後面跟小數點再接運算符號 (0.+6 → 0+6)
+    result = result.replace(/(\d+)\.\s*([+\-x÷)])/g, "$1$2");
+
+    // 規則 3: 如果最後一個不是數字或右括號 → 刪掉
+    // 規則 4: 連續運算符 → 只保留最後一個，需要使用 while 循環 (0x9x+ → 0x9)
+    while (result && isNaN(Number(result.slice(-1))) && result.slice(-1) !== ")") {
+      result = result.slice(0, -1);
+    }
+    
+    return result;
+  };
+
   // =
   const equals = () => {
     if (current === "") return;
 
     let sliceTempCurrent = current;
 
-    // 排除最後一個字非數字
-    const lastText = sliceTempCurrent.slice(-1);
-    if (isNaN(Number(lastText)) && lastText !== ")") {
-      sliceTempCurrent = String(sliceTempCurrent).slice(0, -1);
-    }
+    sliceTempCurrent = sanitizeFormula(sliceTempCurrent);
 
     try {
       const newPrevious = sliceTempCurrent + "=";
