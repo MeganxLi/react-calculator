@@ -20,6 +20,7 @@ import { CopyScope, mathjsOptions } from "../../contexts/EnumType";
 import { evaluate, format } from "mathjs";
 
 export default function Calculator() {
+  const operators = ["+", "-", "x", "÷"]; 
   const dispatch = useAppDispatch();
   const { darkTheme } = useAppSelector((state) => state.calculator);
   const [OpenHistoryList, setOpenHistoryList] = useState<boolean>(false);
@@ -33,41 +34,54 @@ export default function Calculator() {
   // 判斷是否有點擊 ctrl
   const [isClickCtrl, setIsClickCtrl] = useState<boolean>(false);
 
+  const  handleOperatorInput = (operators:string[], current: string, value: string): string=> {
+    const last = current.slice(-1);
+    const secondLast = current.slice(-2, -1);
+    // 1. 禁止重複輸入相同符號 (例如 ++、--、xx、÷÷)
+    if (last === value ) {
+      return current;
+    }
+
+    // 2.當沒有數字以及沒有計算列情況下點擊運算(加減乘除)，需補 0 在前面
+    if(current.length === 0){
+       return 0 + value;
+    }
+
+    // 3. 如果最後一個是正負號，倒數第二個是 x ÷
+    if ((last === "+" || last === "-") && (secondLast === "x" || secondLast === "÷")) {
+      if (value === "x" || value === "÷") {
+        // 替換倒數第二個運算符
+        return current.slice(0, -2) + value ;
+      } else if (value === "+" || value === "-") {
+        // 正負號合法疊加 → 只保留最後一個正負號
+        return current.slice(0, -1) + value;
+      }
+    }
+    // 4. 尾端是任意運算符，再按 x ÷ → 替換
+    if (operators.includes(last) && (value === "x" || value === "÷")) {
+      return current.slice(0, -1) + value;
+    }
+
+    // 正常情況直接加上
+    return current + value;
+  };
+
   const appendValue = (value: string) => {
     // includes 判斷陣列是否包含特定的元素，並回傳 true 或 false
-    //在到達呼叫 return 的地方後，函式會立即停止
-
-    const lastText = current.slice(-1);
-    // + - 後面不能有 x ÷，但 + - 後面可以有自己，有可能代表正數負數
-    if (
-      (value === "." && lastText === ".") ||
-      (value === "+" && lastText === "+") ||
-      (value === "-" && lastText === "-") ||
-      (value === "x" && lastText === "x") ||
-      (value === "÷" && lastText === "÷") ||
-      ((lastText === "+" || lastText === "-") && (value === "x" || value === "÷"))
-    )
-      return;
-    
-    if(previous!==""){
-      // 當有計算列的情況下點擊運算(加減乘除)，都可以再次計算; 反之如果有計算列情況下輸入數字，必須以新的開始
-      if( value === "+" || value === "-" || value === "x" || value === "÷"){
-        setCurrent((prev)=> prev + value);
-        setPrevious("");
-      }else{
-        setPrevious("");
-        setCurrent(value === "." ? "0." : value);
+   
+    // 判斷是否還在點擊運算
+    if(operators.includes(value)){
+       setCurrent(prev => handleOperatorInput(operators, prev, value));
+    } else {
+       // 這邊是判斷點擊數字
+      if(previous!==""){
+        // 當有計算列的情況下點擊 . 必須以新的開始
+          setCurrent(value === "." ? "0." : value);
+      } else {
+        setCurrent(prev=> prev + value);
       }
-    }else{
-      // 當沒有數字以及沒有計算列情況下點擊運算(加減乘除)，需補 0 在前面
-      setCurrent((prev: string) => {
-        if (prev.length === 0 && (value === "." || value === "+" || value === "-" || value === "x" || value === "÷")) {
-          return 0 + value;
-        } else {
-          return prev + value;
-        }
-      });
     }
+     setPrevious("");
   };
 
   // ←
@@ -110,7 +124,7 @@ export default function Calculator() {
     if (isNaN(Number(lastText)) && lastText !== ")") {
       result = result.slice(0, -1);
     }
-
+    
     return result;
   };
 
