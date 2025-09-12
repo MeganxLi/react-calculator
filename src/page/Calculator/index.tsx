@@ -48,15 +48,26 @@ export default function Calculator() {
       ((lastText === "+" || lastText === "-") && (value === "x" || value === "÷"))
     )
       return;
-
-    // 若沒有數字情況下點擊按鈕，需補 0 在前面
-    setCurrent((prev: string) => {
-      if (prev.length === 0 && (value === "." || value === "+" || value === "-" || value === "x" || value === "÷")) {
-        return 0 + value;
-      } else {
-        return prev + value;
+    
+    if(previous!==""){
+      // 當有計算列的情況下點擊運算(加減乘除)，都可以再次計算; 反之如果有計算列情況下輸入數字，必須以新的開始
+      if( value === "+" || value === "-" || value === "x" || value === "÷"){
+        setCurrent((prev)=> prev + value);
+        setPrevious("");
+      }else{
+        setPrevious("");
+        setCurrent(value === "." ? "0." : value);
       }
-    });
+    }else{
+      // 當沒有數字以及沒有計算列情況下點擊運算(加減乘除)，需補 0 在前面
+      setCurrent((prev: string) => {
+        if (prev.length === 0 && (value === "." || value === "+" || value === "-" || value === "x" || value === "÷")) {
+          return 0 + value;
+        } else {
+          return prev + value;
+        }
+      });
+    }
   };
 
   // ←
@@ -84,17 +95,32 @@ export default function Calculator() {
     return tempCurrent;
   };
 
+  // previous 正規化
+  const sanitizeFormula=(formula: string): string=>{
+    let result = String(formula);
+
+    // 規則 1: 運算符號後面直接跟小數 (.3 → 0.3)
+    result = result.replace(/([+\-x÷(])\.(\d+)/g, "$10.$2");
+
+    // 規則 2: 數字後面跟小數點再接運算符號 (0.+6 → 0+6)
+    result = result.replace(/(\d+)\.\s*([+\-x÷)])/g, "$1$2");
+
+    // 規則 3: 如果最後一個不是數字或右括號 → 刪掉
+    const lastText = result.slice(-1);
+    if (isNaN(Number(lastText)) && lastText !== ")") {
+      result = result.slice(0, -1);
+    }
+
+    return result;
+  };
+
   // =
   const equals = () => {
     if (current === "") return;
 
     let sliceTempCurrent = current;
 
-    // 排除最後一個字非數字
-    const lastText = sliceTempCurrent.slice(-1);
-    if (isNaN(Number(lastText)) && lastText !== ")") {
-      sliceTempCurrent = String(sliceTempCurrent).slice(0, -1);
-    }
+    sliceTempCurrent = sanitizeFormula(sliceTempCurrent);
 
     try {
       const newPrevious = sliceTempCurrent + "=";
