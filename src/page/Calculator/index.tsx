@@ -20,7 +20,7 @@ import { CopyScope, mathjsOptions } from "../../contexts/EnumType";
 import { evaluate, format } from "mathjs";
 
 export default function Calculator() {
-  const operators = ["+", "-", "x", "÷"]; 
+  const operators = ["+", "-", "x", "÷", "."]; 
   const dispatch = useAppDispatch();
   const { darkTheme } = useAppSelector((state) => state.calculator);
   const [OpenHistoryList, setOpenHistoryList] = useState<boolean>(false);
@@ -37,8 +37,9 @@ export default function Calculator() {
   const  handleOperatorInput = (operators:string[], current: string, value: string): string=> {
     const last = current.slice(-1);
     const secondLast = current.slice(-2, -1);
+    
     // 1. 禁止重複輸入相同符號 (例如 ++、--、xx、÷÷)
-    if (last === value ) {
+    if (last === value) {
       return current;
     }
 
@@ -47,19 +48,19 @@ export default function Calculator() {
        return 0 + value;
     }
 
-    // 3. 如果最後一個是正負號，倒數第二個是 x ÷
-    if ((last === "+" || last === "-") && (secondLast === "x" || secondLast === "÷")) {
-      if (value === "x" || value === "÷") {
-        // 替換倒數第二個運算符
-        return current.slice(0, -2) + value ;
-      } else if (value === "+" || value === "-") {
-        // 正負號合法疊加 → 只保留最後一個正負號
+    // 3. 運算符只允許最後出現-，其餘到都到 4 替換
+    if ((last === "+" || last === "x" || last === "÷") && value === "-" && !operators.includes(secondLast) ) {
+      return current + value;
+    }
+
+    // 4. 尾端是任意運算符，再按 x ÷ → 替換
+    if (operators.includes(last)) {
+      if(operators.includes(secondLast)){
+        // 因 3 替換倒數第二個運算符
+        return current.slice(0, -2) + value;
+      } else {
         return current.slice(0, -1) + value;
       }
-    }
-    // 4. 尾端是任意運算符，再按 x ÷ → 替換
-    if (operators.includes(last) && (value === "x" || value === "÷")) {
-      return current.slice(0, -1) + value;
     }
 
     // 正常情況直接加上
